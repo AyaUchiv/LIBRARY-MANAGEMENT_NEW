@@ -1,0 +1,153 @@
+/* Global Styles */
+body {
+    background-color: #f8f9fa; /* Light neutral background for contrast */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333; /* Darker text for readability */
+    margin: 0;
+    padding: 0;
+}
+
+/* Main container */
+.body_main {
+    background-color: #ffffff;
+    padding: 20px;
+    font-size: 16px; /* Slightly larger font for readability */
+}
+
+/* Header */
+.body_header {
+    background-color: #f8d7d1; /* Light peach color */
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Registration Section */
+.body_reg {
+    background-color: #d1e8e4; /* Light mint green */
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Form Styling */
+.form_sizing {
+    width: 280px;
+    margin: 20px auto;
+}
+
+.form-container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 350px;
+}
+
+/* Input and Buttons */
+input.form-control {
+    height: 40px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #333;
+}
+
+.btn-pink {
+    background-color: #e83e8c;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-pink:hover {
+    background-color: #c73577;
+}
+
+/* Links */
+a {
+    color: #e83e8c;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Splash Screen */
+.splash-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f1f1f1;
+}
+
+.message-box {
+    background-color: rgba(183, 148, 172, 0.6); /* Soft pink */
+    padding: 20px 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 20px;
+    font-weight: bold;
+    color: #0063ff; /* Bright blue for contrast */
+    text-align: center;
+}
+
+/* Dropdowns */
+.dropdown-toggle {
+    background-color: #e83e8c;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-toggle:hover {
+    background-color: #c73577;
+}
+
+.dropdown-menu {
+    background-color: #f1f1f1; /* Neutral background for dropdown */
+    border-radius: 8px;
+}
+
+.dropdown-item {
+    color: #333;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.dropdown-item:hover {
+    background-color: #e83e8c;
+    color: white;
+}
+
+/* Mobile Adjustments (For responsiveness) */
+@media (max-width: 768px) {
+    .form_sizing {
+        width: 90%;
+    }
+
+    .body_header {
+        font-size: 20px;
+    }
+
+    .body_reg {
+        font-size: 14px;
+    }
+}

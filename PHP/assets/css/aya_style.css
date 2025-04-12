@@ -1,0 +1,68 @@
+.body_main {
+    background-color: white;
+}
+
+.body_reg {
+    background-image: url('../images/registration_background.jpeg');
+}
+
+.body_header {
+    /*background-image: url('../images/pink_background.jpg');*/
+    background-image: url('../images/pink_background2.jfif');
+}
+
+.form_sizing {
+    width: 250px;
+    margin:0 auto;
+}
+
+
+/*ADMIN PAGE*/
+ /* Full screen container */
+ .splash-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    background-color: #f1f1f1; /* Optional background color for the page */
+}
+
+/* Splash effect around the message */
+.message-box {
+    background-color: #b794ac98; /* Splash color (pink) */
+    padding: 20px 40px; /* Add padding around the message */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Optional shadow effect */
+    font-size: 24px; /* Text size */
+    font-weight: bold; /* Bold text */
+    color: rgb(0, 119, 255); /* Text color */
+    text-align: center; /* Center the text */
+}
+
+
+
+/*DROP DOWN*/
+.dropdown-toggle {
+    background-color: #b794ac98;
+    border-color: #b794ac98;
+    color: rgb(0, 119, 255);
+}
+
+.dropdown-toggle:hover {
+    background-color: #b794ac98;
+    border-color: #b794ac98;
+    color: white;
+}
+.dropdown-menu {
+    background-color: #b794ac98;
+    border-radius:8px;
+}
+
+.dropdown-item {
+    color:rgb(0, 119, 255);
+}
+
+.dropdown-item:hover{
+    background-color: #b794ac98;
+    color: white;
+}
