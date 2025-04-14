@@ -3,7 +3,7 @@ require_once "connect.php";
 
 // Fetch books that have at least one available copy
 // Fetch book details using a prepared statement
-$stmt = $conn->prepare("SELECT * FROM book WHERE quantity_available > 0");
+$stmt = $conn->prepare("SELECT * FROM book WHERE quantity_available > 0 ORDER BY `name` ASC");
 $stmt->execute();
 $result = $stmt->get_result();
 

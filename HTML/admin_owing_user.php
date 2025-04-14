@@ -6,12 +6,11 @@ require_once "../PHP/session.php";
 <title>admin owing_users</title>
 
 <main>
-  <div>
     <div class="d-flex justify-content-between align-items-center">
-      <h3>Books</h3>
+      <h3>Owing Users</h3>
       <input class="form-control w-25" type="text" id="search_text" onkeyup="myFunction()" placeholder="Search users..." title="Type in a name">
-      <a href="upload_form.php" class="btn btn-primary ms-3">Add Book</a>
     </div>
+    <div>
     <?php
     include_once(__DIR__ . '/../PHP/owing_users.php');
     ?>

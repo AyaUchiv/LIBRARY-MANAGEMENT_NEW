@@ -16,7 +16,7 @@ $CheckReservationFull->store_result();
 if ($CheckReservationFull->num_rows >= 3) {
     echo "<script>
         alert('You have reached the maximum number of books you can borrow.\\nReturn a book to borrow another!');
-        window.location.href = '../HTML/user_dashboard.php';
+        window.location.href = '../HTML/view_all_books.php';
     </script>";
     $CheckReservationFull->close();
     exit;
@@ -32,7 +32,7 @@ $CheckReservation->store_result();
 if ($CheckReservation->num_rows > 0) {
     echo "<script>
         alert('You have already reserved this book!');
-        window.location.href = '../HTML/user_dashboard.php';
+        window.location.href = '../HTML/view_all_books.php';
     </script>";
     $CheckReservation->close();
     exit;
@@ -40,7 +40,7 @@ if ($CheckReservation->num_rows > 0) {
 $CheckReservation->close();
 
 // Reserve the book
-$sql = $conn->prepare("INSERT INTO book_request (bookId, email, approval_status, issue_date,return_date) VALUES (?, ?, 'Pending', NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY))");
+$sql = $conn->prepare("INSERT INTO book_request (bookId, email, issue_date,return_date) VALUES (?, ?, NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY))");
 $sql->bind_param("ss", $book_id, $user_email);
 
 if ($sql->execute()) {
@@ -51,8 +51,8 @@ if ($sql->execute()) {
     $updateBook->close();
 
     echo "<script>
-        alert('Book has successfully been reserved. Pick up within 2 days!');
-        window.location.href = '../HTML/user_dashboard.php';
+        alert('Book has successfully been reserved. Come for pickup with your Id!');
+        window.location.href = '../HTML/view_all_books.php';
     </script>";
     $sql->close();
     $conn->close();

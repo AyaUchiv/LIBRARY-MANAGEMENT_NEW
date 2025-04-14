@@ -81,9 +81,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bookCount'])) {
                     <label for="book_genre<?php echo $i; ?>" class="form-label">Book Genre:</label>
                     <select name="book_genre[]" class="form-control" required>
                         <option value="" selected disabled>Choose Genre</option>
-                        <option value="fiction">Fiction</option>
-                        <option value="nonfiction">Non Fiction</option>
-                        <option value="education">Education</option>
+                        <option value="Fiction">Fiction</option>
+                        <option value="Non-Fiction">Non-Fiction</option>
+                        <option value="Education">Education</option>
                     </select>
                 </div>
 

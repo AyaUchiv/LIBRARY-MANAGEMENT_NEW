@@ -21,7 +21,7 @@ if ($deleteReservation->execute()) {
     $conn->commit();
 
     echo "<script type='text/javascript'>alert('Book has been successfully returned!');</script>";
-    echo "<script type='text/javascript'>window.location.href = '../HTML/user_dashboard.php';</script>";
+    echo "<script type='text/javascript'>window.location.href = '../HTML/books_management.php';</script>";
     exit;
 } else {
     // If the query fails, display an error message

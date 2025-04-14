@@ -3,6 +3,8 @@
 require_once "connect.php";
 require_once "session.php";
 
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
 // Enable error reporting for debugging
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -10,9 +12,9 @@ error_reporting(E_ALL);
 
 // setting the penalty
 $max_penalty = 100;
-$base_rate = 5;     // First 7 days
-$extra_rate = 2;    // After 7 days
-
+$base_rate = 5/7;     // First 7 days
+$extra_rate = 2/7;    // After 7 days
+try {
 // Fetch overdue all books overdue
 $owing_users = $conn->prepare("
     SELECT br.*, u.Name AS user_name, b.Name AS book_title, DATEDIFF(CURDATE(), return_date) AS days_late
@@ -23,6 +25,7 @@ $owing_users = $conn->prepare("
 ");
 $owing_users->execute();
 $result = $owing_users->get_result();
+
 
 while ($row = $result->fetch_assoc()) {
     $request_id = $row['request_id'];
@@ -54,11 +57,9 @@ while ($row = $result->fetch_assoc()) {
 
     if ($owingResult->num_rows > 0) {
         // Update existing penalty 
-        $existing_penalty = $owingResult->fetch_assoc()['book_penalty'];
-        $new_penalty = min($existing_penalty + $penalty_amount, $max_penalty); // Ensure new penalty doesn't exceed max penalty
 
         $updateOwing = $conn->prepare("UPDATE owing_users SET book_penalty = ? WHERE email = ? AND book_title = ?");
-        $updateOwing->bind_param("iss", $new_penalty, $email, $book_title);
+        $updateOwing->bind_param("iss", $penalty_amount, $email, $book_title);
         $updateOwing->execute();
     } else {
         // Insert new owing user
@@ -70,4 +71,9 @@ while ($row = $result->fetch_assoc()) {
 
 // Redirect user or admin
 exit;
+}
+catch (mysqli_sql_exception $e) {
+    echo "MySQL Error: " . $e->getMessage();
+    exit;
+}
 ?>

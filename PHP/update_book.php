@@ -97,9 +97,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="book_genre" class="form-label">Book Genre:</label>
             <select name="book_genre" class="form-control" required>
                 <option value="" disabled>Choose Genre</option>
-                <option value="fiction" <?php if ($book['genre'] == "fiction") echo "selected"; ?>>Fiction</option>
-                <option value="nonfiction" <?php if ($book['genre'] == "nonfiction") echo "selected"; ?>>Non Fiction</option>
-                <option value="education" <?php if ($book['genre'] == "education") echo "selected"; ?>>Education</option>
+                <option value="Fiction" <?php if ($book['genre'] == "Fiction") echo "selected"; ?>>Fiction</option>
+                <option value="Non-Fiction" <?php if ($book['genre'] == "Non-Fiction") echo "selected"; ?>>Non-Fiction</option>
+                <option value="Education" <?php if ($book['genre'] == "Education") echo "selected"; ?>>Education</option>
             </select>
         </div>
 

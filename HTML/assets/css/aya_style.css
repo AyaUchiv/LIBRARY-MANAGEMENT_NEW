@@ -151,3 +151,16 @@ a:hover {
         font-size: 14px;
     }
 }
+
+/* Password toggle */
+  #togglePassword {
+    font-size: 1.2rem;
+    color: #6c757d;
+  }
+
+  #togglePassword:hover {
+    color: #000;
+  }
+
+
+  

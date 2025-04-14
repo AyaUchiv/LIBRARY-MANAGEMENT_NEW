@@ -41,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($row['IsAdmin'] == 1) {
                 echo "<script>
         alert('Login Successful! Welcome Admin');
-        window.location.href = '../HTML/admin_dashboard.php';
+        window.location.href = '../HTML/user_dashboard.php';
     </script>";
             } else {
                 echo "<script>

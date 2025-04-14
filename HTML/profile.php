@@ -17,21 +17,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $new_email = $_POST['user_email'];
     $user_password = $_POST['user_password'];
 
-    // Hash the password before storing it
-    $hashed_password = password_hash($user_password, PASSWORD_DEFAULT);
+    if ($new_email !== $user_email) {
+        $check_email = $conn->prepare("SELECT Email FROM user WHERE Email = ?");
+        $check_email->bind_param("s", $new_email);
+        $check_email->execute();
+        $check_email_result = $check_email->get_result();
 
-    // Use prepared statements to prevent SQL injection
-    $sql_update = "UPDATE user SET Name = ?, Email = ?, Password = ? WHERE Email = ?";
-    $stmt = $conn->prepare($sql_update);
-    $stmt->bind_param("ssss", $user_name, $new_email, $hashed_password, $user_email);
+        if ($check_email_result->num_rows > 0) {
+            echo "<script type='text/javascript'>alert('Email already in use!');</script>";
+            exit;
+        }
+    } else {
 
+        // if user does not want to update their password. Hash password before storing
+        if (!empty($_POST['user_password'])) {
+            $hashed_password = password_hash($_POST['user_password'], PASSWORD_DEFAULT);
+
+            $sql_update = "UPDATE user SET Name = ?, Email = ?, Password = ? WHERE Email = ?";
+            $stmt = $conn->prepare($sql_update);
+            $stmt->bind_param("ssss", $user_name, $new_email, $hashed_password, $user_email);
+        } else {
+            $sql_update = "UPDATE user SET Name = ?, Email = ? WHERE Email = ?";
+            $stmt = $conn->prepare($sql_update);
+            $stmt->bind_param("sss", $user_name, $new_email, $user_email);
+        }
+    }
     if ($stmt->execute()) {
         // Update session variables after a successful update
         $_SESSION['user_email'] = $new_email;
         $_SESSION['user_name'] = $user_name;
 
         // Redirect to the dashboard
-        header("Location: http://library.local/html/user_dashboard.php");
+        echo "<script type='text/javascript'>alert('Profile updated!');</script>";
+        echo "<script type='text/javascript'>window.location.href = 'user_dashboard.php';</script>";
         exit();
     } else {
         echo "Error: " . $conn->error;
@@ -42,25 +60,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <title>Update Information</title>
 
 <body>
-    <h3>Update Info</h3>
-    <form method="POST">
-        <div class="mb-3">
-            <label for="user_name" class="form-label">Full Name:</label>
-            <input type="text" name="user_name" value="<?php echo htmlspecialchars($user_data['Name']); ?>" class="form-control" required>
+    <div class="container-fluid vh-100 d-flex justify-content-center align-items-center">
+        <div class="form-container text-center">
+
+            <h5 class="text-center">Update Info</h5>
+            <form id="cvform" method="POST">
+                <div class="mb-3">
+                    <label for="user_name" class="form-label">Full Name:</label>
+                    <input type="text" name="user_name" value="<?php echo htmlspecialchars($user_data['Name']); ?>" class="form-control" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="user_email" class="form-label">Email:</label>
+                    <input type="email" name="user_email" value="<?php echo htmlspecialchars($user_data['Email']); ?>" class="form-control" required>
+                </div>
+
+                <div class="mb-3 position-relative">
+                    <label for="user_password" class="form-label">New Password:</label>
+                    <input type="password" name="user_password" id="user_password" class="form-control pe-5" required>
+
+                    <i class="bi bi-eye-slash position-absolute end-0" id="togglePassword"
+                        style="top: 50%; transform: translateY(-0%); cursor: pointer; right: 5rem; font-size: 1.2rem;"></i>
+
+                </div>
+
+                <button type="submit" name="submit" class="btn btn-pink">Update Information</button>
+            </form>
         </div>
+    </div>
 
-        <div class="mb-3">
-            <label for="user_email" class="form-label">Email:</label>
-            <input type="email" name="user_email" value="<?php echo htmlspecialchars($user_data['Email']); ?>" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="user_password" class="form-label">New Password:</label>
-            <input type="password" name="user_password" class="form-control" required>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Update Information</button>
-    </form>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
+</html>

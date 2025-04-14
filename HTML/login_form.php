@@ -5,6 +5,8 @@
     <title>Login Page</title>
     <link rel="stylesheet" href="assets/css/bootstrap.css">
     <link rel="stylesheet" href="assets/css/aya_style.css">
+    <script src="assets/javascript/script.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
 <body>
@@ -21,9 +23,12 @@
                     <input type="email" name="email" placeholder="Email" class="form-control" maxlength="50" value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>" required=""><br>
                 </div>
 
-                <div class="mb-3">
+                <div class="mb-3 position-relative">
                     <label for="password">Password:</label><br>
-                    <input type="password" name="password" placeholder="Password" class="form-control" maxlength="50" value="<?php echo htmlspecialchars($_POST['password'] ?? ''); ?>" required=""><br>
+                    <input type="password" name="password" placeholder="Password" class="form-control" maxlength="50" value="<?php echo htmlspecialchars($_POST['password'] ?? ''); ?>" id="user_password" class="form-control pe-5" required=""><br>
+
+                    <i class="bi bi-eye-slash position-absolute end-0" id="togglePassword"
+                        style="top: 50%; transform: translateY(-75%); cursor: pointer; right: 5rem; font-size: 1.2rem;"></i>
                 </div>
 
                 <div class="mb-3">
@@ -42,6 +47,7 @@
             <p class="mt-3">New User? <a href="signup_form.php">&nbsp Register</a></p>
         </div>
     </div>
+
 </body>
 
 </html>

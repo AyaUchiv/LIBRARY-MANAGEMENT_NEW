@@ -24,6 +24,8 @@ if (isset($_SESSION['user_name'])) {
   <link rel="stylesheet" href="assets/css/bootstrap.css">
   <link rel="stylesheet" href="assets/css/aya_style.css">
   <script src="assets/css/bootstrap-5.1.3-dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/javascript/script.js" defer></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale">
 </head>
@@ -72,7 +74,6 @@ if (isset($_SESSION['user_name'])) {
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <li><a class="dropdown-item" href="admin_users_profile.php">All Users</a></li>
-                <li><a class="dropdown-item" href="admin_message.php">Admin Notification</a></li>
                 <li><a class="dropdown-item" href="admin_owing_user.php">Owing Users</a></li>
               </ul>
             </div>
@@ -87,7 +88,7 @@ if (isset($_SESSION['user_name'])) {
   </header>
 
   <script type="text/javascript">
-  function confirmLogout() {
-    return confirm("Are you sure you want to log out?");
-  }
-</script>
+    function confirmLogout() {
+      return confirm("Are you sure you want to log out?");
+    }
+  </script>
