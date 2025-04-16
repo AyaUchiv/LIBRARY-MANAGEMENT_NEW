@@ -13,10 +13,11 @@ $result = $stmt->get_result();
 $user_data = $result->fetch_assoc();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $user_name = $_POST['user_name'];
-    $new_email = $_POST['user_email'];
-    $user_password = $_POST['user_password'];
+    $new_name = $_POST['user_name1'];
+    $new_email = $_POST['user_email1'];
+    $user_password = $_POST['user_password1'];
 
+    // Check if the new email is already in use by another user
     if ($new_email !== $user_email) {
         $check_email = $conn->prepare("SELECT Email FROM user WHERE Email = ?");
         $check_email->bind_param("s", $new_email);
@@ -25,29 +26,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($check_email_result->num_rows > 0) {
             echo "<script type='text/javascript'>alert('Email already in use!');</script>";
+            echo "<script type='text/javascript'>window.location.href = 'profile.php';</script>";
             exit;
         }
-    } else {
-
-        // if user does not want to update their password. Hash password before storing
-        if (!empty($_POST['user_password'])) {
-            $hashed_password = password_hash($_POST['user_password'], PASSWORD_DEFAULT);
-
-            $sql_update = "UPDATE user SET Name = ?, Email = ?, Password = ? WHERE Email = ?";
-            $stmt = $conn->prepare($sql_update);
-            $stmt->bind_param("ssss", $user_name, $new_email, $hashed_password, $user_email);
-        } else {
-            $sql_update = "UPDATE user SET Name = ?, Email = ? WHERE Email = ?";
-            $stmt = $conn->prepare($sql_update);
-            $stmt->bind_param("sss", $user_name, $new_email, $user_email);
-        }
     }
-    if ($stmt->execute()) {
-        // Update session variables after a successful update
-        $_SESSION['user_email'] = $new_email;
-        $_SESSION['user_name'] = $user_name;
 
-        // Redirect to the dashboard
+    // Build the update query (with or without password)
+    if (!empty($user_password)) {
+        if (strlen($user_password) > 8) {
+            $hashed_password = password_hash($user_password, PASSWORD_DEFAULT);
+            $sql_update = "UPDATE user SET Name = ?, Email = ?, Password = ? WHERE Email = ?";
+            $update_profile = $conn->prepare($sql_update);
+            $update_profile->bind_param("ssss", $new_name, $new_email, $hashed_password, $user_email);
+        } else {
+            echo "<script type='text/javascript'>alert('Password has to be more than 8 characters!');</script>";
+            echo "<script type='text/javascript'>window.location.href = 'profile.php';</script>";
+            exit(); 
+        }
+    } else {
+        $sql_update = "UPDATE user SET Name = ?, Email = ? WHERE Email = ?";
+        $update_profile = $conn->prepare($sql_update);
+        $update_profile->bind_param("sss", $new_name, $new_email, $user_email);
+    }
+
+    // Execute the update
+    if ($update_profile->execute()) {
+        $_SESSION['user_email'] = $new_email;
+        $_SESSION['user_name'] = $new_name;
+
         echo "<script type='text/javascript'>alert('Profile updated!');</script>";
         echo "<script type='text/javascript'>window.location.href = 'user_dashboard.php';</script>";
         exit();
@@ -55,6 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: " . $conn->error;
     }
 }
+
 ?>
 
 <title>Update Information</title>
@@ -66,20 +73,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h5 class="text-center">Update Info</h5>
             <form id="cvform" method="POST">
                 <div class="mb-3">
-                    <label for="user_name" class="form-label">Full Name:</label>
-                    <input type="text" name="user_name" value="<?php echo htmlspecialchars($user_data['Name']); ?>" class="form-control" required>
+                    <label for="user_name1" class="form-label">Full Name:</label>
+                    <input type="text" name="user_name1" id="user_name1" value="<?php echo htmlspecialchars($full_name); ?>" class="form-control" required>
                 </div>
 
                 <div class="mb-3">
-                    <label for="user_email" class="form-label">Email:</label>
-                    <input type="email" name="user_email" value="<?php echo htmlspecialchars($user_data['Email']); ?>" class="form-control" required>
+                    <label for="user_email1" class="form-label">Email:</label>
+                    <input type="email" name="user_email1" id="user_email1" value="<?php echo htmlspecialchars($user_email); ?>" class="form-control" required>
                 </div>
 
                 <div class="mb-3 position-relative">
-                    <label for="user_password" class="form-label">New Password:</label>
-                    <input type="password" name="user_password" id="user_password" class="form-control pe-5" required>
+                    <label for="user_password1" class="form-label">New Password:</label>
+                    <input type="password" name="user_password1" id="user_password1" class="form-control pe-5">
 
-                    <i class="bi bi-eye-slash position-absolute end-0" id="togglePassword"
+                    <i class="bi bi-eye-slash position-absolute end-0" id="togglePassword1"
                         style="top: 50%; transform: translateY(-0%); cursor: pointer; right: 5rem; font-size: 1.2rem;"></i>
 
                 </div>

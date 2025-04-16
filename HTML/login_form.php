@@ -24,11 +24,9 @@
                 </div>
 
                 <div class="mb-3 position-relative">
-                    <label for="password">Password:</label><br>
-                    <input type="password" name="password" placeholder="Password" class="form-control" maxlength="50" value="<?php echo htmlspecialchars($_POST['password'] ?? ''); ?>" id="user_password" class="form-control pe-5" required=""><br>
-
-                    <i class="bi bi-eye-slash position-absolute end-0" id="togglePassword"
-                        style="top: 50%; transform: translateY(-75%); cursor: pointer; right: 5rem; font-size: 1.2rem;"></i>
+                    <label for="user_password1" class="form-label">Password:</label><br>
+                    <input type="password" name="password" placeholder="Password" maxlength="50" value="<?php echo htmlspecialchars($_POST['password'] ?? ''); ?>" id="user_password1" class="form-control pe-5" required=""><br>
+                    <i class="bi bi-eye-slash position-absolute top-50 translate-middle-y end-0 me-4" id="togglePassword1" style="cursor: pointer; font-size: 1.2rem;"></i>
                 </div>
 
                 <div class="mb-3">
@@ -43,7 +41,7 @@
 
             </form>
 
-            <p class="mt-3">Forgot Password? <a href="#">Reset Here</a></p>
+            
             <p class="mt-3">New User? <a href="signup_form.php">&nbsp Register</a></p>
         </div>
     </div>

@@ -24,27 +24,25 @@
             <form id="cvform" action="../PHP/check_registration.php" method="POST">
 
                 <div class="mb-3">
-                    <label for="name">Full Name:</label><br>
-                    <input type="text" name="fullName" placeholder="Full Name" class="form-control" maxlength="50" value="<?php echo htmlspecialchars($_POST['fullName'] ?? ''); ?>" required=""><br>
+                    <label for="fullName">Full Name:</label><br>
+                    <input type="text" name="fullName" placeholder="Full Name" class="form-control" maxlength="50" id = "fullName" value="<?php echo htmlspecialchars($_POST['fullName'] ?? ''); ?>" required=""><br>
                 </div>
 
                 <div class="mb-3">
                     <label for="email">Email:</label><br>
-                    <input type="email" name="email" placeholder="Email" class="form-control" maxlength="50" value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>" required=""><br>
+                    <input type="email" name="email" placeholder="Email" class="form-control" maxlength="50" id = "email" value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>" required=""><br>
                 </div>
 
                 <div class="mb-3 position-relative">
-                    <label for="password">Password:</label><br>
-                    <input type="password" name="password" placeholder="Password" class="form-control" maxlength="50" value="<?php echo htmlspecialchars($_POST['password'] ?? ''); ?>" id="user_password1" class="form-control pe-5" required=""><br>
-                    <i class="bi bi-eye-slash position-absolute end-0" id="togglePassword1"
-                        style="top: 50%; transform: translateY(-75%); cursor: pointer; right: 5rem; font-size: 1.2rem;"></i>
+                    <label for="user_password1" class="form-label">Password:</label>
+                    <input type="password" name="password" placeholder="Password" maxlength="50" value="<?php echo htmlspecialchars($_POST['password'] ?? ''); ?>" id="user_password1" class="form-control pe-5" required=""><br>
+                    <i class="bi bi-eye-slash position-absolute top-50 translate-middle-y end-0 me-4" id="togglePassword1" style="cursor: pointer; font-size: 1.2rem;"></i>
                 </div>
 
                 <div class="mb-3 position-relative">
-                    <label for="repeat_password">Repeat Password:</label><br>
-                    <input type="password" name="repeat_password" placeholder="Password" class="form-control" maxlength="50" value="<?php echo htmlspecialchars($_POST['repeat_password'] ?? ''); ?>" id="user_password2" class="form-control pe-5" required=""><br>
-                    <i class="bi bi-eye-slash position-absolute end-0" id="togglePassword2"
-                        style="top: 50%; transform: translateY(-75%); cursor: pointer; right: 5rem; font-size: 1.2rem;"></i>
+                    <label for="user_password2" class="form-label">Repeat Password:</label>
+                    <input type="password" name="repeat_password" placeholder="Password" maxlength="50" value="<?php echo htmlspecialchars($_POST['repeat_password'] ?? ''); ?>" id="user_password2" class="form-control pe-5" required=""><br>
+                    <i class="bi bi-eye-slash position-absolute top-50 translate-middle-y end-0 me-4" id="togglePassword2" style="cursor: pointer; font-size: 1.2rem;"></i>
                 </div>
 
                 <button type="submit" name="submit" class="btn btn-pink">Sign Up</button>

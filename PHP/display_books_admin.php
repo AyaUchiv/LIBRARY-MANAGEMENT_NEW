@@ -20,7 +20,6 @@ echo "<th>S/N</th>";
 echo "<th>Book Name</th>";
 echo "<th>Author Name</th>";
 echo "<th>Book Edition</th>";
-echo "<th>Book Status</th>";
 echo "<th>Book Quantity</th>";
 echo "<th>Book Available</th>";
 echo "<th>Book Genre</th>";
@@ -37,13 +36,12 @@ while ($row = mysqli_fetch_assoc($result)) {
     echo "<td>" . htmlspecialchars($row['name']) . "</td>";
     echo "<td>" . htmlspecialchars($row['author']) . "</td>";
     echo "<td>" . htmlspecialchars($row['edition']) . "</td>";
-    echo "<td>" . htmlspecialchars($row['status']) . "</td>";
     echo "<td>" . htmlspecialchars($row['quantity']) . "</td>";
     echo "<td>" . htmlspecialchars($row['quantity_available']) . "</td>";
     echo "<td>" . htmlspecialchars($row['genre']) . "</td>";
     echo "<td>";
     echo "<a href='../PHP/update_book.php?bookId=" . $row['bookId'] . "'>Update</a> / ";
-    echo "<a href='#' onclick='confirmDelete(" . $row['bookId'] . ", \"" . addslashes($row['name']) . "\")'>Delete</a>";
+    echo "<a href='#' onclick='confirmDelete1(" . $row['bookId'] . ", \"" . addslashes($row['name']) . "\")'>Delete</a>";
     echo "</td>";
     echo "</tr>";
     $sn++;
@@ -54,7 +52,7 @@ echo "</table>";
 ?>
 
 <script>
-   function confirmDelete(bookId, bookName) {
+   function confirmDelete1(bookId, bookName) {
     // Show confirmation dialog
     var confirmation = confirm("Are you sure you want to delete the book: " + bookName + "?");
 

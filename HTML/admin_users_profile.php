@@ -51,8 +51,8 @@ require_once "../PHP/session.php";
 
         // Actions
         echo "<td>
-                <a href='#' onclick='return confirmEdit(\"" . $row['Email'] . "\")'>Edit</a> / 
-                <a href='#' onclick='confirmDelete(\"" . $row['Email'] . "\")'>Delete</a>
+                <a href='#' onclick='confirmEdit(\"" . $row['Email'] . "\", " . $row['UserID'] . ")'>Edit</a> / 
+                <a href='#' onclick='confirmDelete(\"" . $row['Email'] . "\", " . $row['UserID'] . ")'>Delete</a>
               </td>";
 
         echo "</tr>";

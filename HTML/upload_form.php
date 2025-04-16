@@ -52,15 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['bookCount'])) {
                 </div>
 
                 <div class="mb-3">
-                    <label for="book_status<?php echo $i; ?>" class="form-label">Book Status:</label>
-                    <select name="book_status[]" class="form-control" required>
-                        <option value="" selected disabled>Choose Status</option>
-                        <option value="available">Available</option>
-                        <option value="unavailable">Unavailable</option>
-                    </select>
-                </div>
-
-                <div class="mb-3">
                     <label for="book_quantity<?php echo $i; ?>" class="form-label">Book Quantity:</label>
                     <select name="book_quantity[]" class="form-control" required>
                         <option value="" selected disabled>Choose Quantity</option>

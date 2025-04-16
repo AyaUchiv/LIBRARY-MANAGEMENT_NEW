@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $role = 0;
     }
     //create a sql command to retreive the data
-    $sql = "SELECT Email,Name,Password,IsAdmin FROM user WHERE Email = ? AND IsAdmin = ?";
+    $sql = "SELECT * FROM user WHERE Email = ? AND IsAdmin = ?";
 
     $stmt = mysqli_prepare($conn, $sql);
     mysqli_stmt_bind_param($stmt, "si", $email, $role);
@@ -36,6 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['user_name'] = $row['Name'];
             $_SESSION['user_email'] = $row['Email'];
             $_SESSION['isAdmin'] = $row['IsAdmin'];
+            $_SESSION['UserID'] = $row['UserID']; 
 
             // Check admin status and redirect
             if ($row['IsAdmin'] == 1) {

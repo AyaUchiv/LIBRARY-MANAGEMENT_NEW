@@ -2,11 +2,7 @@
 require_once "header.php";
 require_once "../PHP/connect.php";
 require_once "../PHP/session.php";
-
-// Apply penalty updates only when necessary
-if (isset($_GET['apply_penalty']) && $_GET['apply_penalty'] === 'true') {
-    require_once "../PHP/penalty.php"; // This will apply the penalty logic
-}
+require_once "../PHP/penalty.php";
 ?>
 
 <title><?php echo $full_name;?> Dashboard</title>

@@ -8,8 +8,8 @@ require_once "session.php";
 $book_id = $_GET["bookId"];
 
 // Check if user has already reserved up to 3 books
-$CheckReservationFull = $conn->prepare("SELECT * FROM book_request WHERE email = ?");
-$CheckReservationFull->bind_param("s", $user_email);
+$CheckReservationFull = $conn->prepare("SELECT * FROM book_request WHERE UserID = ?");
+$CheckReservationFull->bind_param("i", $user_id);
 $CheckReservationFull->execute();
 $CheckReservationFull->store_result();
 
@@ -24,8 +24,8 @@ if ($CheckReservationFull->num_rows >= 3) {
 $CheckReservationFull->close();
 
 // Check if user has already reserved this specific book
-$CheckReservation = $conn->prepare("SELECT * FROM book_request WHERE bookId = ? AND email = ?");
-$CheckReservation->bind_param("ss", $book_id, $user_email);
+$CheckReservation = $conn->prepare("SELECT * FROM book_request WHERE bookId = ? AND UserID = ?");
+$CheckReservation->bind_param("si", $book_id, $user_id);
 $CheckReservation->execute();
 $CheckReservation->store_result();
 
@@ -40,8 +40,8 @@ if ($CheckReservation->num_rows > 0) {
 $CheckReservation->close();
 
 // Reserve the book
-$sql = $conn->prepare("INSERT INTO book_request (bookId, email, issue_date,return_date) VALUES (?, ?, NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY))");
-$sql->bind_param("ss", $book_id, $user_email);
+$sql = $conn->prepare("INSERT INTO book_request (bookId, UserID, issue_date,return_date) VALUES (?, ?, NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY))");
+$sql->bind_param("ii", $book_id, $user_id);
 
 if ($sql->execute()) {
     // Reduce quantity_available

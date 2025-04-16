@@ -12,6 +12,7 @@ require_once "../PHP/session.php";
       <input class="form-control w-25" type="text" id="search_text" onkeyup="myFunction()" placeholder="Search books..." title="Type in a name">
       <a href="upload_form.php" class="btn" style="background-color: #e83e8c; color: white">Add Book</a>
     </div>
+    <p>Please note you can only update the quantity and genre of a book to edit the name and author please add as new book</p>
     <?php
     include_once(__DIR__ . '/../PHP/display_books_admin.php');
     ?>

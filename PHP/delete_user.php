@@ -3,9 +3,10 @@ include "connect.php";
 session_start();
 
 $email = $_GET["Email"] ?? '';
+$user_ID = $_GET["UserID"] ?? '';
 $currentUserEmail = $_SESSION['user_email'] ?? '';
 
-// Validate email
+// Validate email format just for display purposes
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     echo "<script>alert('Invalid email.'); window.location.href = '../HTML/admin_users_profile.php';</script>";
     exit;
@@ -17,32 +18,27 @@ if ($email === $currentUserEmail) {
     exit;
 }
 
-// Delete user safely
-// First, check if the user has borrowed any books
-$checkBorrowedBooks = $conn->prepare("SELECT * FROM book_request WHERE email = ?");
-$checkBorrowedBooks->bind_param("s", $email);
+// Check if user has borrowed books
+$checkBorrowedBooks = $conn->prepare("SELECT 1 FROM book_request WHERE UserID = ?");
+$checkBorrowedBooks->bind_param("i", $user_ID);
 $checkBorrowedBooks->execute();
 $result = $checkBorrowedBooks->get_result();
 
 if ($result->num_rows > 0) {
-    // If the user has borrowed books, prevent deletion
-    $message = "{$email} has borrowed a book and cannot be deleted.";
-    echo "<script>alert('$message'); window.location.href = '../HTML/admin_users_profile.php';</script>";
+    echo "<script>alert('$email has borrowed a book and cannot be deleted.'); window.location.href = '../HTML/admin_users_profile.php';</script>";
 } else {
-    // If no books are borrowed, proceed with deletion
-    $stmt = $conn->prepare("DELETE FROM user WHERE Email = ?");
-    $stmt->bind_param("s", $email);
+    $stmt = $conn->prepare("DELETE FROM user WHERE UserID = ?");
+    $stmt->bind_param("i", $user_ID);
 
     if ($stmt->execute()) {
-        $message = "{$email} has been deleted.";
-        echo "<script>alert('$message'); window.location.href = '../HTML/admin_users_profile.php';</script>";
+        echo "<script>alert('$email has been deleted.'); window.location.href = '../HTML/admin_users_profile.php';</script>";
     } else {
-        $message = "Error deleting user: {$conn->error}";
-        echo "<script>alert('$message'); window.location.href = '../HTML/admin_users_profile.php';</script>";
+        echo "<script>alert('Error deleting user: {$conn->error}'); window.location.href = '../HTML/admin_users_profile.php';</script>";
     }
 }
 
 $stmt->close();
 $conn->close();
 exit();
+
 ?>

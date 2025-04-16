@@ -1,30 +1,32 @@
-//password toggle function
-function togglePassword(inputId, iconId) {
-    const input = document.getElementById(inputId);
-    const icon = document.getElementById(iconId);
+//password toggle
+document.addEventListener("DOMContentLoaded", function () {
+    function togglePassword(inputId, iconId) {
+        const input = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+        if (!input || !icon) return;
 
-    if (input.type === "password") {
-        input.type = "text";
-        icon.classList.remove("bi-eye-slash");
-        icon.classList.add("bi-eye");
-    } else {
-        input.type = "password";
-        icon.classList.remove("bi-eye");
-        icon.classList.add("bi-eye-slash");
+        const isPassword = input.type === "password";
+        input.type = isPassword ? "text" : "password";
+        icon.classList.replace(
+            isPassword ? "bi-eye-slash" : "bi-eye",
+            isPassword ? "bi-eye" : "bi-eye-slash"
+        );
     }
-}
 
-document.getElementById("togglePassword").addEventListener("click", function () {
-    togglePassword("user_password", "togglePassword");
+    const toggleConfigs = [
+        { input: "user_password1", icon: "togglePassword1" },
+        { input: "user_password2", icon: "togglePassword2" },
+        // Add more here as needed
+    ];
+
+    toggleConfigs.forEach(({ input, icon }) => {
+        const iconElement = document.getElementById(icon);
+        if (iconElement) {
+            iconElement.addEventListener("click", () => togglePassword(input, icon));
+        }
+    });
 });
 
-document.getElementById("togglePassword1").addEventListener("click", function () {
-    togglePassword("user_password1", "togglePassword1");
-});
-
-document.getElementById("togglePassword2").addEventListener("click", function () {
-    togglePassword("user_password2", "togglePassword2");
-});
 
 //search function
 function myFunction() {
@@ -60,26 +62,26 @@ function myFunction() {
 }
 
 //pop up asking if you want user to become admin or not
-function confirmEdit(Email) {
+function confirmEdit(Email, UserID ){
     const action = prompt("Type 'promote' to make this user an admin, or 'demote' to remove admin rights:");
 
     if (action === null) return; // User pressed Cancel
 
     if (action.toLowerCase() === "promote") {
-        window.location.href = "../PHP/edit_user.php?Email=" + encodeURIComponent(Email) + "&action=promote";
+        window.location.href = "../PHP/edit_user.php?Email=" + encodeURIComponent(Email) + '&UserID=' + UserID + "&action=promote";
     } else if (action.toLowerCase() === "demote") {
-        window.location.href = "../PHP/edit_user.php?Email=" + encodeURIComponent(Email) + "&action=demote";
+        window.location.href = "../PHP/edit_user.php?Email=" + encodeURIComponent(Email) + '&UserID=' + UserID + "&action=demote";
     } else {
         alert("Invalid input. Please type 'promote' or 'demote'.");
     }
 }
 
 //pop to delete a user
-function confirmDelete(Email) {
+function confirmDelete(Email, UserID) {
     var confirmation = confirm("Are you sure you want to delete this user?");
 
     if (confirmation) {
-        window.location.href = "../PHP/delete_user.php?Email=" + Email;
+        window.location.href = '../PHP/delete_user.php?Email=' + encodeURIComponent(Email) + '&UserID=' + UserID;
     } else {
         return false;
     }

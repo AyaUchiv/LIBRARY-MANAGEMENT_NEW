@@ -8,8 +8,8 @@ require_once "session.php";
 $book_id = $_GET["bookId"];
 
 
-$deleteReservation = $conn->prepare("DELETE FROM book_request WHERE bookId = ? AND email = ?");
-$deleteReservation->bind_param("ss", $book_id, $user_email);
+$deleteReservation = $conn->prepare("DELETE FROM book_request WHERE bookId = ? AND UserID = ?");
+$deleteReservation->bind_param("si", $book_id, $user_id);
 if ($deleteReservation->execute()) {
 
     // Increase available_copies by 1

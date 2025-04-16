@@ -26,7 +26,7 @@ require_once "header.php";
     br.book_penalty
 FROM book_request br
 INNER JOIN book b ON br.bookId = b.bookId
-INNER JOIN user u ON br.email = u.Email";
+INNER JOIN user u ON br.UserID = u.UserID";
 
     //check if user has already reserved
     $CheckReservation = $conn->prepare($sql);

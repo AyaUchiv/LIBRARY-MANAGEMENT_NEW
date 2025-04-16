@@ -18,23 +18,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $book_title = $_POST['book_title'];
     $book_author = $_POST['book_author'];
     $book_edition = $_POST['book_edition'];
-    $book_status = $_POST['book_status'];
     $book_quantity = $_POST['book_quantity'];
     $book_genre = $_POST['book_genre'];
 
-    //automatically edit the quantity available when book info is updated
-    $borrowed_books = $book['quantity'] - $book['quantity_available'];
-    $new_quantity_available = $book_quantity - $borrowed_books;
 
-    $sql = "UPDATE book SET name = ?, author = ?, edition = ?, status = ?, quantity = ?, quantity_available = ?, genre = ? WHERE bookId = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssiisi", $book_title, $book_author, $book_edition, $book_status, $book_quantity, $new_quantity_available, $book_genre, $book_id);
+    // Check if the book exists (title + author + edition)
+    $stmt = $conn->prepare("SELECT bookId, quantity, quantity_available FROM book WHERE name = ? AND author = ? AND edition = ?");
+    $stmt->bind_param("sss", $book_title, $book_author, $book_edition);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
+    if ($result->num_rows > 0) {
+        $book = $result->fetch_assoc();
+        $book_id = $book['bookId'];
 
-    if ($stmt->execute()) {
-        header("Location: ../HTML/admin_books_management.php");
+        // If the quantity is the same, show alert
+        if ($book['quantity'] == $book_quantity) {
+            echo "<script>alert('This book has already been uploaded!'); window.location.href = '../HTML/admin_books_management.php';</script>";
+            exit;
+        }
+
+        // Calculate new quantity_available
+        $borrowed_books = $book['quantity'] - $book['quantity_available'];
+        $new_quantity_available = $book_quantity - $borrowed_books;
+
+        if ($new_quantity_available < 0) {
+            echo "<script>alert('Error: New quantity is less than borrowed books!'); window.location.href = '../HTML/admin_books_management.php';</script>";
+            exit;
+        }
+
+        // Before updating, check if another book already has the same title + author + edition
+        $check_duplicate = $conn->prepare("SELECT bookId FROM book WHERE name = ? AND author = ? AND edition = ? AND bookId != ?");
+        $check_duplicate->bind_param("sssi", $book_title, $book_author, $book_edition, $book_id);
+        $check_duplicate->execute();
+        $dup_result = $check_duplicate->get_result();
+
+        if ($dup_result->num_rows > 0) {
+            echo "<script>alert('Error: Another book with the same title, author, and edition already exists!'); window.location.href = '../HTML/admin_books_management.php';</script>";
+            exit;
+        }
+
+        // Proceed with the update
+        $update = $conn->prepare("UPDATE book SET name = ?, author = ?, edition = ?, quantity = ?, quantity_available = ?, genre = ? WHERE bookId = ?");
+        $update->bind_param("sssiisi", $book_title, $book_author, $book_edition, $book_quantity, $new_quantity_available, $book_genre, $book_id);
+
+        if ($update->execute()) {
+            echo "<script>alert('Book updated successfully!'); window.location.href = '../HTML/admin_books_management.php';</script>";
+            exit;
+        } else {
+            echo "<script>alert('Update failed: " . addslashes($update->error) . "');</script>";
+        }
     } else {
-        echo "Error:" . $conn->error;
+        echo "<script>alert('No existing book found to update.'); window.location.href = '../HTML/admin_books_management.php';</script>";
     }
 }
 ?>
@@ -58,26 +93,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="mb-3">
             <label for="book_title" class="form-label">Book Title:</label>
-            <input type="text" name="book_title" value="<?php echo $book['name']; ?>" class="form-control" required>
+            <input type="text" name="book_title" value="<?php echo $book['name']; ?>" class="form-control" readonly>
         </div>
 
         <div class="mb-3">
             <label for="book_author" class="form-label">Book Author:</label>
-            <input type="text" name="book_author" value="<?php echo $book['author']; ?>" class="form-control" required>
+            <input type="text" name="book_author" value="<?php echo $book['author']; ?>" class="form-control" readonly>
         </div>
 
         <div class="mb-3">
             <label for="book_edition" class="form-label">Book Edition:</label>
-            <input type="text" name="book_edition" value="<?php echo $book['edition']; ?>" class="form-control" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="book_status" class="form-label">Book Status:</label>
-            <select name="book_status" class="form-control" required>
-                <option value="" disabled>Choose Status</option>
-                <option value="available" <?php if ($book['status'] == "available") echo "selected"; ?>>Available</option>
-                <option value="unavailable" <?php if ($book['status'] == "unavailable") echo "selected"; ?>>Unavailable</option>
-            </select>
+            <input type="text" name="book_edition" value="<?php echo $book['edition']; ?>" class="form-control" readonly>
         </div>
 
         <div class="mb-3">

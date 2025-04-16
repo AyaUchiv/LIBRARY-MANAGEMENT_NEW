@@ -16,7 +16,6 @@ echo "<th>S/N</th>";
 echo "<th>Book Name</th>";
 echo "<th>Author Name</th>";
 echo "<th>Book Edition</th>";
-echo "<th>Book Status</th>";
 echo "<th>Book Quantity</th>";
 echo "<th>Book Genre</th>";
 echo "<th>Book Reservation</th>";
@@ -32,7 +31,6 @@ while ($row = mysqli_fetch_assoc($result)) {
     echo "<td>" . htmlspecialchars($row['name']) . "</td>";
     echo "<td>" . htmlspecialchars($row['author']) . "</td>";
     echo "<td>" . htmlspecialchars($row['edition']) . "</td>";
-    echo "<td>" . htmlspecialchars($row['status']) . "</td>";
     echo "<td>" . htmlspecialchars($row['quantity_available']) . "</td>";
     echo "<td>" . htmlspecialchars($row['genre']) . "</td>";
     echo "<td>
